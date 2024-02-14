@@ -1,20 +1,24 @@
 import java.lang.Math;
 public class Dec2Bin {
 
-    public static void binToDec(int decNumber){
-        int myNum = binNumber;
-        char decNum;
+    public static void DecToBin(int decNumber)
+    {
+        int myNum = decNumber;
+        int power = 0;
+        int binaryNumber = 0;
        
 
-        while(binNumber>0){
-            char rem = (char)myNum%2;
-            decNum = rem+decNum;
-
+        while(myNum>0)
+        {
+            int rem = myNum%2;
+            binaryNumber =  binaryNumber + (int)(rem * Math.pow(10,power));
+            myNum /=2;
+            power++;
         }
-        System.out.println("Binary of "+decNumber+" is : "+decNum);
+        System.out.println("Binary of "+decNumber+" is : "+binaryNumber);
     }
     public static void main(String[] args) {
-        binToDec(7);
+        DecToBin(9);
     }
     
 }
