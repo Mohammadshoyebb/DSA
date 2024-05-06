@@ -1,0 +1,116 @@
+//=============================================Question=============================================================
+/**
+2487. Remove Nodes From Linked List
+Solved
+Medium
+Topics
+Companies
+Hint
+You are given the head of a linked list.
+
+Remove every node which has a node with a greater value anywhere to the right side of it.
+
+Return the head of the modified linked list.
+
+ 
+
+Example 1:
+
+
+Input: head = [5,2,13,3,8]
+Output: [13,8]
+Explanation: The nodes that should be removed are 5, 2 and 3.
+- Node 13 is to the right of node 5.
+- Node 13 is to the right of node 2.
+- Node 8 is to the right of node 3.
+Example 2:
+
+Input: head = [1,1,1,1]
+Output: [1,1,1,1]
+Explanation: Every node has value 1, so no nodes are removed.
+ 
+
+Constraints:
+
+The number of the nodes in the given list is in the range [1, 105].
+1 <= Node.val <= 105
+*/
+
+
+//================================================Solution==================================================================
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Remove_Nodes_From_Linked_List {
+    /**
+     * Removes nodes from the given linked list if there is a node with a greater value
+     * anywhere to the right side of it.
+     *
+     * @param head The head of the linked list.
+     * @return The head of the modified linked list.
+     */
+    public ListNode removeNodes(ListNode head) {
+        // Check if the list is empty or has only one node
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        // Reverse the linked list
+        ListNode prev = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode nextNode = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextNode;
+        }
+
+        // Create a new head node with the value of the last node
+        ListNode newHead = new ListNode(prev.val);
+        int maxVal = newHead.val;
+        curr = prev.next;
+
+        // Traverse the reversed linked list
+        while (curr != null) {
+            // If the current node's value is greater than or equal to maxVal,
+            // add a new node to the new linked list with the current value
+            if (curr.val >= maxVal) {
+                ListNode tempNode = new ListNode(curr.val);
+                tempNode.next = newHead;
+                newHead = tempNode;
+                maxVal = tempNode.val;
+            }
+            curr = curr.next;
+        }
+
+        return newHead;
+    }
+
+    /**
+     * Main method to test the Remove_Nodes_From_Linked_List class.
+     */
+    public static void main(String[] args) {
+        // Example usage
+        ListNode head = new ListNode(5);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(13);
+        head.next.next.next = new ListNode(3);
+        head.next.next.next.next = new ListNode(8);
+
+        Remove_Nodes_From_Linked_List solution = new Remove_Nodes_From_Linked_List();
+        ListNode result = solution.removeNodes(head);
+
+        // Print the result
+        while (result != null) {
+            System.out.print(result.val + " ");
+            result = result.next;
+        }
+    }
+}
